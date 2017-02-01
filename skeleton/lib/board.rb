@@ -21,17 +21,21 @@ class Board
     stones = @cups[start_pos].length
     @cups[start_pos] = []
     render
-    @cups[start_pos + 1..start_pos - 1].each.with_index do |el, idx|
-      if stones > 0
-        @cups[start_pos + idx].concat([:stone])
+    opposing_cup = (0..5).include?(start_pos) ? 6 : 13
+    last_cup = nil
+    @cups[start_pos + 1 ..-1].each do |el|
+      last_cup = el
+      break if stones == 0
+      if stones > 0 && el != opposing_cup
+        el.concat([:stone])
         stones -= 1
       end
     end
-    #next_turn
+    next_turn(last_cup)
   end
 
   def next_turn(ending_cup_idx)
-    # helper method to determine what #make_move returns
+    (0..6).include?(ending_cup_idx) ? "Erica" : "James"
   end
 
   def render
